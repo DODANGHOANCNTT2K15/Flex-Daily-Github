@@ -1,8 +1,7 @@
 name: Random Quotes Commits
 
 on:
-  schedule:
-    - cron: '0 */4 * * *'  # Chạy mỗi 4 giờ (6 lần/ngày: 0h, 4h, 8h, 12h, 16h, 20h UTC)
+  workflow_dispatch:  # Chạy thủ công để test
 
 jobs:
   random-commit:
@@ -10,29 +9,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Generate random delay
+      - name: Test
+        run: echo "Test chạy" >> test.txt
+      - name: Commit
         run: |
-          DELAY=$((RANDOM % 3600))  # Trễ ngẫu nhiên 0-3599 giây (dưới 1 giờ)
-          echo "Đợi $DELAY giây trước khi commit"
-          sleep $DELAY
-
-      - name: Add random quote
-        run: |
-          QUOTES=(
-            "Hôm nay tôi sẽ code thật hăng say!"
-            "Mỗi commit là một bước tiến!"
-            "Tôi không ngừng học hỏi!"
-            "Đam mê dẫn tôi đi xa!"
-            "Ngày mới, cơ hội mới!"
-          )
-          RANDOM_QUOTE=${QUOTES[$RANDOM % ${#QUOTES[@]}]}
-          echo "$RANDOM_QUOTE - $(date '+%Y-%m-%d %H:%M:%S')" >> quotes.txt
-
-      - name: Commit changes
-        run: |
-          git config --local user.name "DODANGHOANCNTT2K15"  # Thay bằng username của bạn
-          git config --local user.email "dodanghoana12017@gmail.com"  # Thay bằng email GitHub của bạn
-          git add quotes.txt
-          git commit -m "Thêm câu nói ngẫu nhiên ngày $(date)"
+          git config --local user.name "Test"
+          git config --local user.email "test@example.com"
+          git add test.txt
+          git commit -m "Test commit"
           git push
