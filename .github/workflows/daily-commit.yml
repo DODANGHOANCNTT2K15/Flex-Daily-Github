@@ -17,4 +17,4 @@ jobs:
           git config --local user.email "test@example.com"
           git add test.txt
           git commit -m "Test commit"
-          git push
+          # Bỏ git push
